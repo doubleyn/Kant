@@ -1,0 +1,3 @@
+export function advance(state,course){const last=course.slides[state.slide].frames.length-1;return state.step<last?{...state,step:state.step+1}:state.slide<course.slides.length-1?{slide:state.slide+1,step:0}:state;}
+export function previous(state,course){return state.slide>0?{slide:state.slide-1,step:course.slides[state.slide-1].frames.length-1}:state;}
+export function parseRoute(hash,courses){const m=hash.match(/^#\/day\/(\d{4}-\d\d-\d\d)(?:\/(\d+))?(?:\/(\d+))?$/);if(!m)return null;const course=courses.find(c=>c.id===m[1]);if(!course)return null;const slide=Math.max(0,Math.min(course.slides.length-1,(+m[2]||1)-1));const step=Math.max(0,Math.min(course.slides[slide].frames.length-1,+m[3]||0));return{course,slide,step};}
