@@ -1,0 +1,43 @@
+/* ============================================================
+   Data table — 행에 마우스를 올리면 강조 (+ .reveal 펼침)
+   <table class="data-table">
+     <tr class="hoverable" data-link="a" tabindex="0">…</tr>
+   ============================================================ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-body);
+}
+.data-table--lg { font-size: 32px; }
+.data-table th {
+  padding: 24px 20px;
+  text-align: left;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--color-muted);
+  border-bottom: 2px solid var(--color-fg);
+}
+.data-table td {
+  padding: 24px 20px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--dur-fast) ease;
+}
+.data-table--lg td { padding: 32px; }
+.data-table--lg th { padding: 24px 32px; }
+
+.data-table tr.hoverable { cursor: help; }
+.data-table tr:is(:hover, :focus-visible, .is-linked) td,
+.data-table tr.is-highlight td { background: var(--color-weak-bg); }
+.data-table tr.is-highlight:is(:hover, :focus-visible) td { background: #c9e2ff; }
+
+.data-table .o { font-weight: 700; color: var(--color-weak-fg); }
+.data-table .x { font-weight: 700; color: var(--color-muted); }
+.data-table .code-cell { font-family: var(--font-mono); }
+.data-table .code-cell--accent { color: var(--color-weak-fg); }
+
+.data-table .result {
+  padding-top: 12px;
+  font: 500 var(--fs-small)/1.4 var(--font-mono);
+  color: var(--color-weak-fg);
+}

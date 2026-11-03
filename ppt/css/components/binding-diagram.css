@@ -1,0 +1,85 @@
+/* ============================================================
+   Binding diagram — 이름(a, b) → 객체 화살표 그림
+   .binding 에 .is-linked(호버 연동) 또는 .is-deleted 가 붙으면
+   a 의 바인딩이 끊긴 상태로 바뀜
+   ============================================================ */
+.binding {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  cursor: help;
+  outline: none;
+}
+.binding__state {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--color-body);
+}
+.binding__state .after { display: none; color: var(--color-danger-strong); }
+
+.binding__graph {
+  display: grid;
+  grid-template-columns: auto 160px auto;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  row-gap: 24px;
+  align-items: center;
+  justify-content: start;
+}
+.binding__name {
+  padding: 10px 28px;
+  border: 2px solid var(--color-fg);
+  border-radius: 12px;
+  background: var(--color-canvas);
+  font: 600 32px/1.3 var(--font-mono);
+  transition: all var(--dur) var(--ease);
+}
+.binding__arrow {
+  position: relative;
+  height: 3px;
+  background: var(--color-primary);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  transform-origin: left center;
+}
+.binding__arrow::after {
+  content: '';
+  position: absolute;
+  right: -2px; top: -8px;
+  border: 9px solid transparent;
+  border-left: 14px solid var(--color-primary);
+  border-right: 0;
+}
+.binding__arrow--a { transform: rotate(14deg) translateY(10px); }
+.binding__arrow--b { transform: rotate(-14deg) translateY(-10px); }
+
+.binding__object {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  padding: 28px 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-weak-bg);
+  color: var(--color-weak-fg);
+  font: 600 32px/1.3 var(--font-mono);
+}
+
+.binding__caption { font-size: var(--fs-body); line-height: 1.5; color: var(--color-body); }
+.binding__caption b { color: var(--color-fg); }
+.binding__caption .after { display: none; }
+
+/* 삭제 후 상태 */
+.binding:is(:hover, :focus-visible, .is-linked, .is-deleted) .binding__name--a {
+  border-style: dashed;
+  border-color: var(--color-danger-strong);
+  background: var(--color-danger-weak);
+  color: var(--color-danger-strong);
+  text-decoration: line-through;
+}
+.binding:is(:hover, :focus-visible, .is-linked, .is-deleted) .binding__arrow--a {
+  opacity: 0;
+  transform: rotate(14deg) translateY(10px) scaleX(0.2);
+}
+.binding:is(:hover, :focus-visible, .is-linked, .is-deleted) :is(.binding__state, .binding__caption) .before { display: none; }
+.binding:is(:hover, :focus-visible, .is-linked, .is-deleted) :is(.binding__state, .binding__caption) .after { display: inline; }

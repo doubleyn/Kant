@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>중요 개념 정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<!-- 디자인 토큰 → 레이아웃 → 재사용 컴포넌트 -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components/card.css">
+<link rel="stylesheet" href="css/components/hover-reveal.css">
+<link rel="stylesheet" href="css/components/code-block.css">
+<link rel="stylesheet" href="css/components/data-table.css">
+<link rel="stylesheet" href="css/components/binding-diagram.css">
+</head>
+<body>
+
+<main class="stage" data-footer="중요 개념 정리">
+
+  <!-- ============ 1. 표지 ============ -->
+  <section class="slide slide--cover" id="cover">
+    <div style="flex:1"></div>
+    <div class="col" style="gap:32px">
+      <p class="eyebrow" style="font-size:32px" data-step="1" data-anim="fade">Python 자료구조 · 딕셔너리와 집합</p>
+      <h1 class="display" data-step="2">중요 개념 정리</h1>
+    </div>
+    <div style="flex:1"></div>
+    <div class="row" style="gap:16px" data-step="3" data-anim="fade">
+      <span class="chip"><b>01</b> del 키워드</span>
+      <span class="chip"><b>02</b> get() 동작</span>
+      <span class="chip"><b>03</b> remove와 discard</span>
+      <span class="chip"><b>04</b> Set과 순서</span>
+    </div>
+  </section>
+
+  <!-- ============ 2. 키워드 / 내장 함수 / 메서드 ============ -->
+  <section class="slide" id="terms">
+    <header class="slide__header">
+      <p class="eyebrow">01 · del 키워드</p>
+      <h2 class="slide__title">키워드, 내장 함수, 메서드는 서로 다르다</h2>
+    </header>
+    <div class="grid-3">
+      <article class="card hoverable" tabindex="0" data-step="1">
+        <p class="card__label">키워드 · keyword</p>
+        <h3 class="card__title">Python 문법에 정의된 단어</h3>
+        <div class="reveal"><div class="col" style="gap:16px">
+          <p class="mono muted" style="font-size:28px;line-height:1.6">del<br>if<br>for<br>return</p>
+          <p class="card__text">괄호 없이 문장으로 쓴다</p>
+        </div></div>
+        <p class="cue">마우스를 올려 예시 보기</p>
+      </article>
+      <article class="card hoverable" tabindex="0" data-step="2">
+        <p class="card__label">내장 함수 · built-in function</p>
+        <h3 class="card__title">객체 없이 호출할 수 있는 함수</h3>
+        <div class="reveal"><div class="col" style="gap:16px">
+          <p class="mono muted" style="font-size:28px;line-height:1.6">len()<br>print()<br>type()</p>
+          <p class="card__text">이름(인자) 형태로 호출한다</p>
+        </div></div>
+        <p class="cue">마우스를 올려 예시 보기</p>
+      </article>
+      <article class="card hoverable" tabindex="0" data-step="3">
+        <p class="card__label">메서드 · method</p>
+        <h3 class="card__title">특정 객체에 속한 함수</h3>
+        <div class="reveal"><div class="col" style="gap:16px">
+          <p class="mono muted" style="font-size:28px;line-height:1.6">dict.pop()<br>list.append()<br>str.upper()</p>
+          <p class="card__text">객체.이름(인자) 형태로 호출한다</p>
+        </div></div>
+        <p class="cue">마우스를 올려 예시 보기</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 3. 핵심 문장 ============ -->
+  <section class="slide slide--accent" id="del-keyword">
+    <p class="eyebrow" style="font-size:44px" data-step="1" data-anim="fade">01 · del 키워드</p>
+    <h2 class="statement" data-step="2"><span class="mono">del</span>은 딕셔너리의 메서드가 아니라<br>키워드다</h2>
+    <p class="lead" data-step="3">적용되는 대상 객체에 따라 서로 다른 동작이 수행된다.</p>
+  </section>
+
+  <!-- ============ 4. del의 내부 동작 ============ -->
+  <section class="slide" id="del-internal">
+    <header class="slide__header">
+      <p class="eyebrow">01 · del 키워드</p>
+      <h2 class="slide__title">대상에 따라 달라지는 del의 동작</h2>
+    </header>
+    <div class="split" style="--split-left:600px">
+      <pre class="code" data-step="1" data-anim="fade"><code>
+<span class="code__line" data-link="var"><span class="tok-cm"># ① 변수 이름 삭제</span></span>
+<span class="code__line" data-link="var">x = <span class="tok-num">10</span></span>
+<span class="code__line" data-link="var"><span class="tok-kw">del</span> x</span>
+<span class="code__line"></span>
+<span class="code__line" data-link="list"><span class="tok-cm"># ② 리스트 요소 삭제</span></span>
+<span class="code__line" data-link="list">numbers = [<span class="tok-num">10</span>, <span class="tok-num">20</span>, <span class="tok-num">30</span>]</span>
+<span class="code__line" data-link="list"><span class="tok-kw">del</span> numbers[<span class="tok-num">0</span>]</span>
+<span class="code__line"></span>
+<span class="code__line" data-link="dict"><span class="tok-cm"># ③ 딕셔너리 요소 삭제</span></span>
+<span class="code__line" data-link="dict">person = {<span class="tok-str">"name"</span>: <span class="tok-str">"수영"</span>}</span>
+<span class="code__line" data-link="dict"><span class="tok-kw">del</span> person[<span class="tok-str">"name"</span>]</span>
+</code></pre>
+      <div class="col" style="gap:40px">
+        <table class="data-table" data-step="2">
+          <tr><th style="width:40%">구문 <span style="font-weight:400">· 행에 올려 보세요</span></th><th>내부 동작</th></tr>
+          <tr class="hoverable" tabindex="0" data-link="var"><td class="code-cell">del x</td><td>현재 스코프에서 이름 x의 <b>바인딩 제거</b></td></tr>
+          <tr class="hoverable" tabindex="0" data-link="list"><td class="code-cell">del numbers[0]</td><td class="code-cell code-cell--accent">numbers.__delitem__(0)</td></tr>
+          <tr class="hoverable" tabindex="0" data-link="dict"><td class="code-cell">del person["name"]</td><td class="code-cell code-cell--accent">person.__delitem__("name")</td></tr>
+        </table>
+        <div class="callout callout--compact" data-step="3">
+          <p>리스트와 딕셔너리는 모두 <b class="accent">__delitem__()</b>이라는 특수 메서드를 구현한다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. 바인딩 ============ -->
+  <section class="slide" id="del-binding">
+    <header class="slide__header">
+      <p class="eyebrow">01 · del 키워드</p>
+      <h2 class="slide__title">del은 객체가 아니라 이름의 바인딩을 지운다</h2>
+    </header>
+    <div class="split" style="--split-left:640px">
+      <pre class="code code--hinted" data-step="1" data-anim="fade"><span class="code__hint">del a 줄에 올려 보세요</span><code>
+<span class="code__line">a = [<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>]</span>
+<span class="code__line">b = a</span>
+<span class="code__line"></span>
+<span class="code__line" data-link="del-a"><span class="tok-kw">del</span> a</span>
+<span class="code__line"></span>
+<span class="code__line" data-output="[1, 2, 3]"><span class="tok-kw">print</span>(b)  <span class="tok-cm"># [1, 2, 3]</span></span>
+<span class="code__line" data-output="NameError: name 'a' is not defined"><span class="tok-kw">print</span>(a)  <span class="tok-err"># NameError</span></span>
+</code></pre>
+      <div class="binding" tabindex="0" data-link="del-a" data-step="2">
+        <p class="binding__state"><span class="before">del a 실행 전 · 마우스를 올리면 실행 후</span><span class="after">del a 실행 후</span></p>
+        <div class="binding__graph">
+          <span class="binding__name binding__name--a">a</span>
+          <span class="binding__arrow binding__arrow--a"></span>
+          <span class="binding__object">[1, 2, 3]</span>
+          <span class="binding__name binding__name--b">b</span>
+          <span class="binding__arrow binding__arrow--b"></span>
+        </div>
+        <p class="binding__caption">
+          <span class="before">이름 <b>a</b>와 <b>b</b>가 같은 리스트 객체를 가리킨다.</span>
+          <span class="after">이름 <b>a</b>만 사라지고, 리스트 객체는 <b>b</b>가 계속 참조하므로 그대로 남는다.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. get() ============ -->
+  <section class="slide" id="get" data-transition="push">
+    <header class="slide__header">
+      <p class="eyebrow">02 · get() 동작</p>
+      <h2 class="slide__title">get()은 키가 없어도 오류 없이 값을 준다</h2>
+    </header>
+    <div class="split" style="--split-left:1fr;grid-template-columns:1fr 860px">
+      <div class="col" style="gap:0">
+        <div class="rule hoverable" tabindex="0" data-step="2" style="border-top:2px solid var(--color-fg)">
+          <p class="rule__when">key가 존재하면</p>
+          <p class="rule__then">해당 키의 값을 반환</p>
+          <div class="reveal"><div><p class="rule__example">menu.get("coffee")  → 4000</p></div></div>
+        </div>
+        <div class="rule hoverable" tabindex="0" data-step="3" data-link="default">
+          <p class="rule__when">key가 없으면</p>
+          <p class="rule__then"><span class="accent">default</span> 값을 반환</p>
+          <div class="reveal"><div><p class="rule__example">menu.get("cake", 5000)  → 5000</p></div></div>
+        </div>
+        <div class="rule hoverable" tabindex="0" data-step="4" style="border-bottom:1px solid var(--color-border)">
+          <p class="rule__when">default를 생략하고 key가 없으면</p>
+          <p class="rule__then"><span class="accent">None</span> 반환</p>
+          <div class="reveal"><div><p class="rule__example">menu.get("cake")  → None</p></div></div>
+        </div>
+      </div>
+      <pre class="code" data-step="1" data-anim="fade"><code>
+<span class="code__line" data-output="{'coffee': 4000, 'tea': 4500}"><span class="tok-kw">print</span>(menu)</span>
+<span class="code__line"><span class="tok-cm"># {'coffee': 4000, 'tea': 4500}</span></span>
+<span class="code__line"></span>
+<span class="code__line" data-output="KeyError: 'cake'"><span class="tok-cm"># menu["cake"]</span></span>
+<span class="code__line" data-link="default">price = menu.get(<span class="tok-str">"cake"</span>, <span class="tok-num">5000</span>)</span>
+<span class="code__line" data-link="default" data-output="5000"><span class="tok-kw">print</span>(price)  <span class="tok-cm"># 5000</span></span>
+<span class="code__line"></span>
+<span class="code__line" data-output="{'coffee': 4000, 'tea': 4500}"><span class="tok-kw">print</span>(menu)</span>
+<span class="code__line"><span class="tok-cm"># {'coffee': 4000, 'tea': 4500}</span></span>
+</code></pre>
+    </div>
+  </section>
+
+  <!-- ============ 7. remove vs discard ============ -->
+  <section class="slide" id="remove-discard" data-transition="push">
+    <header class="slide__header">
+      <p class="eyebrow">03 · Set의 remove와 discard</p>
+      <h2 class="slide__title">없는 요소를 지울 때, 오류를 낼 것인가</h2>
+    </header>
+    <div class="grid-2">
+      <article class="card hoverable" tabindex="0" data-step="1" data-anim="left" style="gap:20px">
+        <p class="card__name">remove()</p>
+        <p class="card__label card__label--danger">요소가 없으면 KeyError</p>
+        <h3 class="card__subtitle">반드시 존재해야 하는 요소를 제거할 때</h3>
+        <p class="card__text">요소가 없다는 사실을 <b>오류로 감지하고 싶다면</b> remove()가 적합하다.</p>
+        <div class="reveal"><div>
+          <pre class="code" style="padding:24px 32px"><code>
+<span class="code__line">fruits.remove(<span class="tok-str">"grape"</span>)</span>
+<span class="code__line"><span class="tok-err"># KeyError: 'grape'</span></span>
+</code></pre>
+        </div></div>
+        <p class="cue">마우스를 올려 실행 결과 보기</p>
+      </article>
+      <article class="card card--weak hoverable" tabindex="0" data-step="2" data-anim="right" style="gap:20px">
+        <p class="card__name accent">discard()</p>
+        <p class="card__label">요소가 없어도 오류 없음</p>
+        <h3 class="card__subtitle">있을 수도, 없을 수도 있는 요소를 제거할 때</h3>
+        <p class="card__text">네트워크 문제로 연결 종료 이벤트가 중복 발생해도 discard()로 <b>안전하게 처리</b>할 수 있다.</p>
+        <div class="reveal"><div>
+          <pre class="code" style="padding:24px 32px"><code>
+<span class="code__line">fruits.discard(<span class="tok-str">"grape"</span>)</span>
+<span class="code__line"><span class="tok-cm"># 아무 일도 일어나지 않음</span></span>
+</code></pre>
+        </div></div>
+        <p class="cue">마우스를 올려 실행 결과 보기</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 8. 안전하게 제거 ============ -->
+  <section class="slide" id="safe-remove">
+    <header class="slide__header">
+      <p class="eyebrow">03 · Set의 remove와 discard</p>
+      <h2 class="slide__title">오류 없이 안전하게 제거하기</h2>
+    </header>
+    <pre class="code code--lg" data-step="1" data-anim="fade"><code>
+<span class="code__line"><span class="tok-cm"># 집합</span></span>
+<span class="code__line" data-output="오류 없음">fruits.discard(<span class="tok-str">"grape"</span>)  <span class="tok-cm"># 요소가 없어도 오류 없음</span></span>
+<span class="code__line"></span>
+<span class="code__line"><span class="tok-cm"># 딕셔너리의 경우</span></span>
+<span class="code__line" data-output="None">menu.pop(<span class="tok-str">"cake"</span>, <span class="tok-kw">None</span>)  <span class="tok-cm"># 키가 없어도 오류 없음</span></span>
+</code></pre>
+    <div class="callout" data-step="2">
+      <span class="badge">참고</span>
+      <p><span class="tip mono" tabindex="0" data-tip="KeyError: 'cake'">menu["cake"]</span>는 오류가 나지만, <span class="tip mono accent" tabindex="0" data-tip="None">menu.get("cake")</span>는 값이 없어도 오류 없이 <b>None</b>을 반환한다.</p>
+    </div>
+  </section>
+
+  <!-- ============ 9. dict vs set 순서 ============ -->
+  <section class="slide slide--surface" id="order" data-transition="push">
+    <header class="slide__header">
+      <p class="eyebrow">04 · Set 자료구조에서 순서 ⭐</p>
+      <h2 class="slide__title">둘 다 해시 기반이지만, 순서 보장은 다르다</h2>
+    </header>
+    <div class="grid-2">
+      <article class="card card--white hoverable" tabindex="0" data-step="1">
+        <p class="card__name">dict</p>
+        <p class="card__big" style="color:var(--color-primary)">삽입 순서 보장</p>
+        <p class="card__text">Python 3.7 이상에서 키의 삽입 순서를 보장한다.</p>
+        <div class="reveal"><div>
+          <pre class="code" style="padding:24px 32px"><code>
+<span class="code__line"><span class="tok-kw">dict</span>.fromkeys([<span class="tok-str">"b"</span>, <span class="tok-str">"a"</span>, <span class="tok-str">"b"</span>])</span>
+<span class="code__line"><span class="tok-cm"># {'b': None, 'a': None}</span></span>
+</code></pre>
+        </div></div>
+        <p class="cue">마우스를 올려 예시 보기</p>
+      </article>
+      <article class="card card--white hoverable" tabindex="0" data-step="2">
+        <p class="card__name">set</p>
+        <p class="card__big muted">순서 보장 X</p>
+        <p class="card__text">출력 순서가 넣은 순서와 다를 수 있다.</p>
+        <div class="reveal"><div>
+          <pre class="code" style="padding:24px 32px"><code>
+<span class="code__line"><span class="tok-kw">set</span>([<span class="tok-str">"b"</span>, <span class="tok-str">"a"</span>, <span class="tok-str">"b"</span>])</span>
+<span class="code__line"><span class="tok-cm"># {'a', 'b'} 또는 {'b', 'a'}</span></span>
+</code></pre>
+        </div></div>
+        <p class="cue">마우스를 올려 예시 보기</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 10. 중복 제거 코드 ============ -->
+  <section class="slide" id="order-code">
+    <header class="slide__header">
+      <p class="eyebrow">04 · Set 자료구조에서 순서 ⭐</p>
+      <h2 class="slide__title">중복을 제거하는 세 가지 방법</h2>
+    </header>
+    <pre class="code code--hinted" data-step="1"><span class="code__hint">print 줄에 마우스를 올려 결과 보기</span><code>
+<span class="code__line"><span class="tok-cm"># 원시 데이터</span></span>
+<span class="code__line">raw_emails = [<span class="tok-str">"a@sparta.com"</span>, <span class="tok-str">"b@sparta.com"</span>, <span class="tok-str">"a@sparta.com"</span>]</span>
+<span class="code__line"></span>
+<span class="code__line"><span class="tok-cm"># 집합으로 중복 제거 - 집합은 순서 보장 X</span></span>
+<span class="code__line" data-output="예: ['b@sparta.com', 'a@sparta.com'] · 순서 바뀔 수 있음"><span class="tok-kw">print</span>(<span class="tok-kw">list</span>(<span class="tok-kw">set</span>(raw_emails)))</span>
+<span class="code__line"></span>
+<span class="code__line"><span class="tok-cm"># 중복을 제거하면서 원본 순서 보장하기</span></span>
+<span class="code__line" data-output="['a@sparta.com', 'b@sparta.com']"><span class="tok-kw">print</span>(<span class="tok-kw">list</span>(<span class="tok-kw">dict</span>.fromkeys(raw_emails)))</span>
+<span class="code__line"></span>
+<span class="code__line"><span class="tok-cm"># 중복을 제거하면서 정렬하기 - sorted</span></span>
+<span class="code__line" data-output="['a', 'c', 'd', 'f']"><span class="tok-kw">print</span>(<span class="tok-kw">sorted</span>(<span class="tok-kw">set</span>([<span class="tok-str">"c"</span>, <span class="tok-str">"d"</span>, <span class="tok-str">"a"</span>, <span class="tok-str">"f"</span>, <span class="tok-str">"a"</span>])))</span>
+</code></pre>
+  </section>
+
+  <!-- ============ 11. 비교표 ============ -->
+  <section class="slide" id="order-table">
+    <header class="slide__header">
+      <p class="eyebrow">04 · Set 자료구조에서 순서 ⭐</p>
+      <h2 class="slide__title">순서가 필요하면 dict.fromkeys()</h2>
+    </header>
+    <table class="data-table data-table--lg" data-step="1" data-anim="fade">
+      <tr><th style="width:50%">코드 <span style="font-weight:400">· 행에 올리면 결과</span></th><th style="width:20%">중복 제거</th><th>원래 순서 유지</th></tr>
+      <tr class="hoverable" tabindex="0">
+        <td><span class="code-cell">list(set(raw_emails))</span><div class="reveal"><div><p class="result">→ 예: ['b@sparta.com', 'a@sparta.com']</p></div></div></td>
+        <td class="o">O</td><td class="x">X</td>
+      </tr>
+      <tr class="hoverable is-highlight" tabindex="0">
+        <td><span class="code-cell" style="font-weight:600">list(dict.fromkeys(raw_emails))</span><div class="reveal"><div><p class="result">→ ['a@sparta.com', 'b@sparta.com']</p></div></div></td>
+        <td class="o">O</td><td class="o">O</td>
+      </tr>
+      <tr class="hoverable" tabindex="0">
+        <td><span class="code-cell">sorted(set(raw_emails))</span><div class="reveal"><div><p class="result">→ ['a@sparta.com', 'b@sparta.com']</p></div></div></td>
+        <td class="o">O</td><td class="muted"><span class="x">X</span>  (정렬된 순서)</td>
+      </tr>
+    </table>
+  </section>
+
+</main>
+
+<script src="js/components/link-highlight.js"></script>
+<script src="js/deck.js"></script>
+</body>
+</html>

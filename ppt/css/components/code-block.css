@@ -1,0 +1,78 @@
+/* ============================================================
+   Code block — 줄 단위 마크업 + 실행 결과 툴팁
+   사용법:
+     <pre class="code"><code>
+       <span class="code__line"><span class="tok-cm"># 주석</span></span>
+       <span class="code__line" data-output="5000">print(price)</span>
+       <span class="code__line code__line--blank"></span>
+     </code></pre>
+   · data-output  : 줄에 마우스를 올리면 결과 말풍선 표시
+   · data-link    : link-highlight.js 로 표/설명과 서로 강조
+   · 토큰: tok-kw(키워드·내장) tok-str tok-num tok-cm tok-err
+   ============================================================ */
+.code {
+  position: relative;
+  margin: 0;
+  padding: 40px 48px;
+  border-radius: var(--radius-lg);
+  background: var(--code-bg);
+  color: var(--code-fg);
+  font: 400 var(--fs-body)/1.5 var(--font-mono);
+  white-space: normal; /* 줄 사이 개행은 무시, 각 줄 안에서만 공백 보존 */
+  tab-size: 4;
+}
+.code--lg { font-size: 32px; padding: 48px 56px; }
+.code code { font: inherit; display: block; }
+
+.code__line {
+  position: relative;
+  display: block;
+  min-height: 1.5em;
+  white-space: pre;
+  margin: 0 -16px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--dur-fast) ease;
+}
+.code__line[data-output],
+.code__line[data-link] { cursor: help; }
+.code__line[data-output]:hover,
+.code__line[data-link]:hover,
+.code__line.is-linked { background: var(--code-line-hover); }
+
+/* 결과 말풍선 */
+.code__line[data-output]::after {
+  content: '→ ' attr(data-output);
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translate(8px, -50%);
+  padding: 6px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font: 600 var(--fs-small)/1.3 var(--font-mono);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease);
+}
+.code__line[data-output]:hover::after,
+.code__line[data-output].is-linked::after { opacity: 1; transform: translate(0, -50%); }
+
+/* 우상단 안내 배지 (.code--hinted 로 윗여백 확보) */
+.code--hinted { padding-top: 64px; }
+.code__hint {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font: 500 var(--fs-small)/1 var(--font-sans);
+  color: var(--code-comment);
+  white-space: normal;
+}
+
+.tok-kw  { color: var(--code-keyword); }
+.tok-str { color: var(--code-string); }
+.tok-num { color: var(--code-number); }
+.tok-cm  { color: var(--code-comment); }
+.tok-err { color: var(--code-error); }
