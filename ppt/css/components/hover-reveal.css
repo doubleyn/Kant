@@ -1,0 +1,91 @@
+/* ============================================================
+   Hover reveal — 마우스를 올리면(또는 Tab 포커스) 숨은 내용이 펼쳐짐
+   사용법:
+     <div class="card hoverable" tabindex="0">
+       ...항상 보이는 내용...
+       <div class="reveal"><div>숨은 내용</div></div>
+       <p class="cue">마우스를 올려 예시 보기</p>
+     </div>
+   · .reveal 은 반드시 자식 하나로 감쌀 것 (grid 0fr→1fr 애니메이션)
+   · .hoverable.is-linked 도 펼침 상태 (link-highlight.js 연동)
+   · 무대(.stage)에 .reveal-all 이 붙으면 전부 펼침 (H 키)
+   ============================================================ */
+.hoverable {
+  position: relative;
+  outline: none;
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    background-color var(--dur-fast) ease;
+}
+.hoverable.card:is(:hover, :focus-visible, .is-linked) {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lift);
+}
+.hoverable:focus-visible { box-shadow: 0 0 0 3px #90c2ff, var(--shadow-lift); }
+
+.reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+.reveal > * { overflow: hidden; min-height: 0; }
+
+.hoverable:is(:hover, :focus-visible, :focus-within, .is-linked) .reveal,
+.stage.reveal-all .reveal {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+/* 힌트 문구: 펼쳐지면 사라짐 */
+.cue {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  transition: opacity var(--dur-fast) ease;
+}
+.cue::before {
+  content: '';
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  animation: cue-pulse 1.6s ease-in-out infinite;
+}
+.hoverable:is(:hover, :focus-visible, :focus-within, .is-linked) .cue,
+.stage.reveal-all .cue { opacity: 0; }
+
+@keyframes cue-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.35; }
+}
+
+/* ---------- Inline tip — 글자 위에 말풍선 ----------
+   <span class="tip" data-tip="KeyError: 'cake'" tabindex="0">menu["cake"]</span> */
+.tip {
+  position: relative;
+  border-bottom: 3px dotted var(--color-primary);
+  cursor: help;
+  outline: none;
+}
+.tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 14px);
+  transform: translate(-50%, 8px);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  background: var(--color-fg);
+  color: var(--code-fg);
+  font: 500 var(--fs-small)/1.3 var(--font-mono);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease);
+}
+.tip:is(:hover, :focus-visible)::after { opacity: 1; transform: translate(-50%, 0); }

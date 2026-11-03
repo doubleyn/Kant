@@ -1,0 +1,62 @@
+/* ============================================================
+   Design tokens — Toss (TDS) 디자인 시스템 기준 (design.md 참고)
+   폰트: Toss Product Sans는 배포 불가 → IBM Plex Sans / Pretendard /
+   IBM Plex Sans KR 순으로 대체 (design.md "Brand face, substitute")
+   ============================================================ */
+:root {
+  /* Color — roles */
+  --color-primary: #3182f6;        /* blue500 */
+  --color-primary-strong: #2272eb; /* blue600 */
+  --color-weak-bg: #e8f3ff;        /* blue50  */
+  --color-weak-fg: #1b64da;        /* blue700 */
+  --color-canvas: #ffffff;
+  --color-fg: #191f28;             /* grey900 */
+  --color-body: #4e5968;           /* grey700 */
+  --color-muted: #8b95a1;          /* grey500 */
+  --color-surface: #f2f4f6;        /* grey100 */
+  --color-border: #e5e8eb;         /* grey200 */
+  --color-on-primary: #ffffff;
+  --color-danger: #e42939;         /* red600 */
+  --color-danger-strong: #d22030;  /* red700 */
+  --color-danger-weak: #ffeeee;    /* red50  */
+
+  /* Color — code block (grey900 바탕 위 TDS 팔레트) */
+  --code-bg: #191f28;
+  --code-fg: #f2f4f6;
+  --code-comment: #8b95a1;
+  --code-keyword: #64a8ff;         /* blue300 */
+  --code-string: #3fd599;          /* green300 */
+  --code-number: #ffbd51;          /* orange300 */
+  --code-error: #fb8890;           /* red300 */
+  --code-line-hover: rgba(100, 168, 255, 0.16);
+
+  /* Typography */
+  --font-sans: 'Toss Product Sans', 'IBM Plex Sans', 'Pretendard Variable', 'IBM Plex Sans KR', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'IBM Plex Sans KR', monospace;
+  --fs-display: 128px;
+  --fs-statement: 96px;
+  --fs-title: 64px;
+  --fs-lead: 44px;
+  --fs-h3: 36px;
+  --fs-body: 28px;
+  --fs-small: 24px;
+
+  /* Radius & space */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 56px;
+  --slide-pad: 128px;
+
+  /* Motion — TDS는 수치 토큰을 공개하지 않음: 로컬 확장 값 */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 200ms;
+  --dur: 450ms;
+
+  /* Elevation — 로컬 확장 (호버 피드백 전용) */
+  --shadow-lift: 0 24px 48px rgba(25, 31, 40, 0.12);
+}
